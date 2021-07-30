@@ -4,22 +4,35 @@ using namespace std;
 
 
 int main() {
-    vector<int>vec = {-1,2,4,-5,5,7,34,-2,5,-5};
-    int maxSum = vec[0];
-    int jm = 0;
-    int im = 0;
+    vector<int>vec = {-2,1,-3,4,-1,2,1,-5,4,5,8,10,-200,100,8};
+    int maxSumInterval = vec[0];
+    int iMax = 0;
+    int iMin = 0;
+
+    int iMinLocal = 0;
+    int sumMin = vec[0];
+
+    int sum = 0;
+    int sum0 = 0;
     for(int i = 0; i < vec.size(); i++){
-        int sum = 0;
-        for(int j = i; j < vec.size(); j++){
-            sum +=vec[j];
-            if(maxSum < sum) {
-                maxSum = sum;
-                im = i;
-                jm = j;
-            }
-        }
+       sum += vec[i];
+       if(i!=0) sum0+=vec[i-1];
+
+
+       if(sum0 < sumMin){
+           sumMin = sum0;
+           iMinLocal = i-1;
+       }
+
+       if(sum - sumMin > maxSumInterval){
+           maxSumInterval = sum - sumMin;
+           iMax = i;
+           iMin = (vec.size()>1 ? iMinLocal+1 : iMinLocal);
+       }
+       //cout << vec[i] << " " << sum <<" " << sumMin <<" " << maxSumInterval << endl;
     }
 
-    cout << "Max sum between " << im << " and " << jm << " and equal " << maxSum << endl;
+
+    cout << "Max sum between " << iMin<< " and " << iMax << " and equal " << maxSumInterval << endl;
     return 0;
 }
